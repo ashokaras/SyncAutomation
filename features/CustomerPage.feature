@@ -4,13 +4,13 @@ Feature: Validating customer page
   Scenario Outline: Validate customer name
     Given i login application
     When i navigate to customer page
-    Then i validate customer name with '<customerName>'
+    Then i validate customer name with '<customerName>' as '<validation>' data
     And i quit browser
 
     Examples:
-    |customerName|
-    |ashok|
-    |Ashok|
+    |customerName|validation|
+    |ashok|positive   |
+    |Ashok|negative   |
 
   @gstNumber
   Scenario Outline: Validate customer GST number

@@ -2,6 +2,7 @@ package steps;
 
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.CustomerPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 
@@ -41,24 +43,24 @@ public class TestSteps {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.get(properties.getProperty("url"));
-        try{
-            waitForElement(LoginPage.txt_Username);
-            LoginPage.txt_Username.sendKeys(properties.getProperty("username"));
-            LoginPage.txt_Password.sendKeys(properties.getProperty("password"));
-            LoginPage.btn_Login.click();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        type(LoginPage.txt_Username,properties.getProperty("username"));
+        type(LoginPage.txt_Password,properties.getProperty("password"));
+        click(LoginPage.btn_Login);
     }
 
     @When("i navigate to customer page")
     public void i_navigate_to_customer_page() {
-        HomePage.lnk_CustomerPage.click();
+        click(HomePage.lnk_CustomerPage);
     }
 
-    @Then("i validate customer name with {string}")
-    public void i_validate_customer_name_with(String string) {
-        System.out.println(string);
+    @Then("i validate customer name with {string} as {string} data")
+    public void i_validate_customer_name_with_as_data(String string, @NotNull String string2) {
+        type(CustomerPage.txt_CustomerName,string);
+        if (string2.equalsIgnoreCase("positive")){
+
+        } else if (string2.equalsIgnoreCase("negative")){
+
+        }
     }
 
     @Then("i quit browser")
@@ -68,7 +70,7 @@ public class TestSteps {
 
     @Then("i validate gst number with {string}")
     public void i_validate_gst_number_with(String string) {
-        System.out.println(string);
+        type(CustomerPage.txt_GSTNumber,string);
     }
 
     @SuppressWarnings("deprecation")
@@ -95,4 +97,13 @@ public class TestSteps {
         }
     }
 
+    private boolean elementExists(WebElement element){
+        boolean elementVisibility;
+        if(element.isDisplayed()){
+            elementVisibility = true;
+        }else{
+            elementVisibility = false;
+        }
+        return elementVisibility;
+    }
 }
