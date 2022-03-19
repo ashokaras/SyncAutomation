@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features",
-        //dryRun = true,
+        dryRun = true,
         glue = "steps",
         //tags = "@customerName",
         plugin = {"pretty","html:output/html-output.html"}

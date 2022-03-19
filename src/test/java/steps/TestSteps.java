@@ -77,6 +77,11 @@ public class TestSteps {
         driver.quit();
     }
 
+    @Then("i validate customer name with multiple data")
+    public void i_validate_customer_name_with_multiple_data() {
+
+    }
+
     @Then("i validate gst number with {string}")
     public void i_validate_gst_number_with(String string) {
         CustomerPage customerPage = new CustomerPage(driver);
@@ -113,5 +118,10 @@ public class TestSteps {
         }catch(NoSuchElementException e){
             return false;
         }
+    }
+
+    private String getData(){
+
+        return null;
     }
 }

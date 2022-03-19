@@ -12,6 +12,13 @@ Feature: Validating customer page
     |ashoklordatgmaildotcom|positive   |
     |a                     |negative   |
 
+  @customerNameAllInOne
+  Scenario: Validate customer name with multiple data in single run
+    Given i login application
+    When i navigate to customer page
+    Then i validate customer name with multiple data
+    And i quit browser
+
   @gstNumber
   Scenario Outline: Validate customer GST number
     Given i login application
