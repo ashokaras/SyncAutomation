@@ -9,8 +9,8 @@ Feature: Validating customer page
 
     Examples:
     |customerName|validation|
-    |ashok|positive   |
-    |Ashok|negative   |
+    |ashoklordatgmaildotcom|positive   |
+    |a                     |negative   |
 
   @gstNumber
   Scenario Outline: Validate customer GST number
@@ -22,5 +22,3 @@ Feature: Validating customer page
     Examples:
       |gstNumber|
       |one|
-      |two|
-      |three|

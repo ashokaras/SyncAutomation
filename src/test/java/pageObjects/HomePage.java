@@ -14,6 +14,6 @@ public class HomePage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy (xpath = "") public static WebElement lnk_CustomerPage;
+    @FindBy (xpath = "//div[@class='flex space-x-4']/div[2]/a[4]") public WebElement lnk_CustomerPage;
 
 }

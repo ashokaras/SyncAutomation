@@ -13,9 +13,9 @@ public class CustomerPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy (xpath = "") public static WebElement txt_CustomerName;
-    @FindBy (xpath = "") public static WebElement lbl_CustomerName_ErrorMessage;
-    @FindBy (xpath = "") public static WebElement txt_GSTNumber;
-    @FindBy (xpath = "") public static WebElement lbl_GSTNumber_ErrorMessage;
+    @FindBy (xpath = "//input[@id='companyName']") public WebElement txt_CustomerName;
+    @FindBy (xpath = "//input[@id='companyName']/following-sibling::span") public WebElement lbl_CustomerName_ErrorMessage;
+    @FindBy (xpath = "//input[@id='gst']") public WebElement txt_GSTNumber;
+    @FindBy (xpath = "//input[@id='gst']/following-sibling::span") public WebElement lbl_GSTNumber_ErrorMessage;
 
 }

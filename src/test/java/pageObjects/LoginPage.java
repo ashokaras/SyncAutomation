@@ -13,8 +13,8 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//") public static WebElement txt_Username;
-    @FindBy (xpath = "//") public static WebElement txt_Password;
-    @FindBy (xpath = "//") public static WebElement btn_Login;
+    @FindBy(xpath = "//input[@id='username']") public WebElement txt_Username;
+    @FindBy (xpath = "//input[@type='password']") public WebElement txt_Password;
+    @FindBy (xpath = "//button[@name='Login']") public WebElement btn_Login;
 
 }

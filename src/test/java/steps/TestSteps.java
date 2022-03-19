@@ -1,8 +1,10 @@
 package steps;
 
+import exceptions.ErrorMessageNotDisplayed;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.jetbrains.annotations.NotNull;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +23,7 @@ import java.util.Properties;
 
 public class TestSteps {
 
-    private WebDriver driver;
+    WebDriver driver;
 
     @Given("i login application")
     public void i_login_application() throws IOException {
@@ -43,23 +45,30 @@ public class TestSteps {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.get(properties.getProperty("url"));
-        type(LoginPage.txt_Username,properties.getProperty("username"));
-        type(LoginPage.txt_Password,properties.getProperty("password"));
-        click(LoginPage.btn_Login);
+        LoginPage loginPage = new LoginPage(driver);
+        type(loginPage.txt_Username,properties.getProperty("username"));
+        type(loginPage.txt_Password,properties.getProperty("password"));
+        click(loginPage.btn_Login);
     }
 
     @When("i navigate to customer page")
     public void i_navigate_to_customer_page() {
-        click(HomePage.lnk_CustomerPage);
+        HomePage homePage = new HomePage(driver);
+        click(homePage.lnk_CustomerPage);
     }
 
     @Then("i validate customer name with {string} as {string} data")
-    public void i_validate_customer_name_with_as_data(String string, @NotNull String string2) {
-        type(CustomerPage.txt_CustomerName,string);
+    public void i_validate_customer_name_with_as_data(String string, @NotNull String string2) throws ErrorMessageNotDisplayed {
+        CustomerPage customerPage = new CustomerPage(driver);
+        type(customerPage.txt_CustomerName,string);
         if (string2.equalsIgnoreCase("positive")){
-
+            if(elementExists(customerPage.lbl_CustomerName_ErrorMessage)){
+                throw new ErrorMessageNotDisplayed(customerPage.lbl_CustomerName_ErrorMessage);
+            }
         } else if (string2.equalsIgnoreCase("negative")){
-
+            if(!elementExists(customerPage.lbl_CustomerName_ErrorMessage)){
+                throw new ErrorMessageNotDisplayed(customerPage.lbl_CustomerName_ErrorMessage);
+            }
         }
     }
 
@@ -70,7 +79,8 @@ public class TestSteps {
 
     @Then("i validate gst number with {string}")
     public void i_validate_gst_number_with(String string) {
-        type(CustomerPage.txt_GSTNumber,string);
+        CustomerPage customerPage = new CustomerPage(driver);
+        type(customerPage.txt_GSTNumber,string);
     }
 
     @SuppressWarnings("deprecation")
@@ -97,13 +107,11 @@ public class TestSteps {
         }
     }
 
-    private boolean elementExists(WebElement element){
-        boolean elementVisibility;
-        if(element.isDisplayed()){
-            elementVisibility = true;
-        }else{
-            elementVisibility = false;
+    private boolean elementExists(WebElement element) {
+        try{
+            return element.isDisplayed();
+        }catch(NoSuchElementException e){
+            return false;
         }
-        return elementVisibility;
     }
 }
